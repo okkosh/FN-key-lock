@@ -20,7 +20,7 @@ Press  `Ctrl`+`Alt`+`L` to toggle Lock.
 1. Press `windows key + r`
 2. Copy the run command `Shell:startup`
 3. It will reach `C:\Users\[Username]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup` 
-4. Create the shortcut of the `fnlock.exe` here.
+4. Create a shortcut of the `fnlock.exe` here.
 5. That's it!
 
 **Notes**

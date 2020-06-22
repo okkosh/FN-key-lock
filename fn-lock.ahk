@@ -62,6 +62,14 @@ onKeyPress:
 	GuiControlGet, str_val, , A%str_press%
 	send, {%str_val%}
 	return
+
+OnExit:
+ExitApp
+
+onShow:
+Gui, Show
+return
+
 ;Save all the settings when the gui is closed
 GuiClose:
 Gui, submit, NoHide

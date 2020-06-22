@@ -33,4 +33,32 @@ IfExist , %A_MyDocuments%\config.ini
 	Gui, Show, w272 h400, FN Lock
 }
 return
-Apply:	return
+Apply:
+	Gui, submit, NoHide
+	; Loop through all the keys
+	loop, 12
+	{
+		GuiControlGet, ControlVal, , A%A_Index%
+		if ((ControlVal <> "") and (is_Locked = true))
+			Hotkey , F%A_index%, onKeyPress, On
+		else
+			Hotkey , F%A_index%, onKeyPress, Off
+	}
+
+	;Show tray notification according to the `is_locked` value
+	if is_Locked {
+		TrayTip, FN Lock, FN Keys are Locked`n You can now access the functions, 20, 17
+		GuiControl, , status, (FN Keys Status: Locked)
+	} else {
+		TrayTip, FN Lock, FN Keys are Unlocked`n We've disabled the function keys, 20, 17
+		GuiControl, , status, (FN Keys Status: Unlocked)
+	}
+	return
+
+
+; label for whenever a key is pressed
+onKeyPress:
+	str_press := SubStr(A_ThisHotkey, 2)
+	GuiControlGet, str_val, , A%str_press%
+	send, {%str_val%}
+	return

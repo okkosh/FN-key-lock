@@ -62,3 +62,12 @@ onKeyPress:
 	GuiControlGet, str_val, , A%str_press%
 	send, {%str_val%}
 	return
+;Save all the settings when the gui is closed
+GuiClose:
+Gui, submit, NoHide
+	loop, 12
+	{
+		GuiControlGet, str_val, , A%A_Index%
+		IniWrite, %str_val%, %A_MyDocuments%\config.ini, Keys, F%A_index%
+	}
+Gui, hide

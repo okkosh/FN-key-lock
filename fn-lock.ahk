@@ -33,6 +33,14 @@ IfExist , %A_MyDocuments%\config.ini
 	Gui, Show, w272 h400, FN Lock
 }
 return
+
+^!l::
+	if is_Locked {
+		is_Locked := false
+	} else {
+		is_Locked := true
+	}
+
 Apply:
 	Gui, submit, NoHide
 	; Loop through all the keys

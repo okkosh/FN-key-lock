@@ -7,7 +7,7 @@ A Script to simulate custom hardware (F1-F12) FN key lock on windows
 Press  `Ctrl`+`Alt`+`L` to toggle Lock.
 
 **How to Install**
-- Download the [fnlock.exe](https://github.com/okkosh/FN-key-lock/raw/master/bin/fnlock.exe) file.
+- Download the [fnlock.exe](https://github.com/okkosh/FN-key-lock/releases) file from releases.
 - Place it anywhere on your system.
 - *Double Click* **fnlock.exe** and It will show up in your tray.
 - Enjoy!

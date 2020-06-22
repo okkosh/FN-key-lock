@@ -75,7 +75,7 @@ OnExit:
 ExitApp
 
 onShow:
-Gui, Show
+Gui, Show, , FN Lock
 return
 
 ;Save all the settings when the gui is closed

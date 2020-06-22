@@ -18,8 +18,8 @@ Press  `Ctrl`+`Alt`+`L` to toggle Lock.
 
 **Starting Automatically with Windows**
 1. Press `windows key + r`
-2. Copy the run command `Shell:common startup`
-3. It will reach  C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Startup` 
+2. Copy the run command `Shell:startup`
+3. It will reach `C:\Users\[Username]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup` 
 4. Create the shortcut of the `fnlock.exe` here.
 5. That's it!
 

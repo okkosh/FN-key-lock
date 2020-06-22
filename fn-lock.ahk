@@ -55,10 +55,10 @@ Apply:
 
 	;Show tray notification according to the `is_locked` value
 	if is_Locked {
-		TrayTip, FN Lock, FN Keys are Locked`n You can now access the functions, 20, 17
+		TrayTip, FN Lock, FN Keys are Locked`nYou can now access the functions, 20, 17
 		GuiControl, , status, (FN Keys Status: Locked)
 	} else {
-		TrayTip, FN Lock, FN Keys are Unlocked`n We've disabled the function keys, 20, 17
+		TrayTip, FN Lock, FN Keys are Unlocked`nWe've disabled the function keys, 20, 17
 		GuiControl, , status, (FN Keys Status: Unlocked)
 	}
 	return

@@ -19,6 +19,7 @@ Gui, Add, Button, x82 yp+35 w100 gApply, Apply
 Menu, Tray, NoStandard
 Menu, Tray, Add, Show, onShow
 Menu, Tray, Add, Exit, OnExit
+Menu, Tray, Tip, FN Lock
 
 
 ; Shows GUI iff not configured (For the first time)

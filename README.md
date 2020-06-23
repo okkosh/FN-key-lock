@@ -17,8 +17,11 @@ Press  `Ctrl`+`Alt`+`L` to toggle Lock.
 - Delete `fnlock.exe` file and optionally delete `config.ini` file from `Documents` directory of your windows.
 
 **Starting Automatically with Windows**
-- Place the file inside *C:\Users\[Username]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup* folder
-- That's it!
+1. Press `windows key + r`
+2. Copy the run command `Shell:startup`
+3. It will reach `C:\Users\[Username]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup` 
+4. Create a shortcut of the `fnlock.exe` here.
+5. That's it!
 
 **Notes**
 - The GUI shows up only for the first time and for the subsequent runs it will start in the tray mode.

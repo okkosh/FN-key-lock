@@ -2,6 +2,7 @@
 #Persistent
 #SingleInstance Force
 
+F_KEYS := 12
 global is_Locked := false
 
 Gui, Add, Text, x0 y10 w272 h20 +Center vStatus, (FN Keys Status: Unlocked)
@@ -33,6 +34,9 @@ IfExist , %A_MyDocuments%\config.ini
 }else{
 	Gui, Show, w272 h400, FN Lock
 }
+
+Increments := 5 ; < lower for a more granular change, higher for larger jump in brightness
+CurrentBrightness := GetCurrentBrightness()
 return
 
 ^!l::
@@ -81,10 +85,31 @@ return
 
 ;Save all the settings when the gui is closed
 GuiClose:
-Gui, submit, NoHide
-	loop, 12
-	{
-		GuiControlGet, str_val, , A%A_Index%
-		IniWrite, %str_val%, %A_MyDocuments%\config.ini, Keys, F%A_index%
+	Gui, submit, NoHide
+		loop, %F_KEYS%
+		{
+			GuiControlGet, str_val, , A%A_Index%
+			IniWrite, %str_val%, %A_MyDocuments%\config.ini, Keys, F%A_index%
+		}
+	Gui, hide
+	return
+
+ChangeBrightness( ByRef brightness := 50, timeout = 1 )
+{
+	if ( brightness >= 0 && brightness <= 100 ){
+		For property in ComObjGet( "winmgmts:\\.\root\WMI" ).ExecQuery( "SELECT * FROM WmiMonitorBrightnessMethods" )
+			property.WmiSetBrightness( timeout, brightness )
+	} else if ( brightness > 100 ){
+		brightness := 100
+	} else if ( brightness < 0 ){
+		brightness := 0
 	}
-Gui, hide
+}
+
+GetCurrentBrightness()
+{
+	For property in ComObjGet( "winmgmts:\\.\root\WMI" ).ExecQuery( "SELECT * FROM WmiMonitorBrightness" )
+		currentBrightness := property.CurrentBrightness
+
+	return currentBrightness
+}

@@ -72,8 +72,22 @@ Apply:
 onKeyPress:
 	str_press := SubStr(A_ThisHotkey, 2)
 	GuiControlGet, str_val, , A%str_press%
-	send, {%str_val%}
-	return
+
+	switch str_val
+	{
+		case "Brightness_up":
+				ChangeBrightness( CurrentBrightness += Increments )
+				return
+		case "Brightness_down":
+				ChangeBrightness( CurrentBrightness -= Increments )
+				return
+		case "Brightness_default":
+				ChangeBrightness( CurrentBrightness := 50 )
+				return
+		default:
+			send, {%str_val%}
+			return
+	}
 
 OnExit:
 	ExitApp

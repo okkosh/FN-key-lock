@@ -4,6 +4,11 @@
 
 F_KEYS := 12
 global is_Locked := false
+LINK_NAME := "\fnlock.lnk"
+
+if FileExist(A_Startup . LINK_NAME)
+	is_auto_start:= "checked"
+
 
 Gui, Add, Text, x0 y10 w272 h20 +Center vStatus, (FN Keys Status: Unlocked)
 Gui, Add, Text, x32 yp+25 w100 hp , Toggle Lock
@@ -16,6 +21,8 @@ loop, %F_KEYS%
 }
 
 Gui, Add, Button, x82 yp+35 w100 gApply, Apply
+
+Gui, Add, CheckBox, x82 yp+35 w220 h20 von_start %is_auto_start% gAutoStart, Automatically run on startup
 
 Menu, Tray, NoStandard
 Menu, Tray, Add, Show, onShow
@@ -31,7 +38,7 @@ IfExist , %A_MyDocuments%\config.ini
 			GuiControl, ChooseString, A%A_index%, %sett_val%
 		}
 }else{
-	Gui, Show, w272 h400, FN Lock
+	Gui, Show, w260 h400, FN Lock
 }
 
 Increments := 5 ; < lower for a more granular change, higher for larger jump in brightness
@@ -91,6 +98,14 @@ onKeyPress:
 
 OnExit:
 	ExitApp
+
+AutoStart:
+	Gui, submit, NoHide
+	if on_start
+		FileCreateShortcut, %A_ScriptFullPath%, %A_Startup%\%LINK_NAME%, %A_ScriptDir%
+	else
+		FileDelete, %A_Startup%\%LINK_NAME%
+	return
 
 
 onShow:

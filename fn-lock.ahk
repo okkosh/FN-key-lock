@@ -2,8 +2,11 @@
 #Persistent
 #SingleInstance Force
 
+; Total number of Fn Keys
 F_KEYS := 12
+; Lock Status
 global is_Locked := false
+; Startup link
 LINK_NAME := "\fnlock.lnk"
 
 if FileExist(A_Startup . LINK_NAME)
@@ -45,12 +48,9 @@ Increments := 5 ; < lower for a more granular change, higher for larger jump in 
 CurrentBrightness := GetCurrentBrightness()
 return
 
+; Toggle Lock
 ^!l::
-	if is_Locked {
-		is_Locked := false
-	} else {
-		is_Locked := true
-	}
+	is_locked := !is_locked
 
 Apply:
 	Gui, submit, NoHide
@@ -58,10 +58,11 @@ Apply:
 	loop, %F_KEYS%
 	{
 		GuiControlGet, ControlVal, , A%A_Index%
-		if ((ControlVal <> "") and (is_Locked = true))
-			Hotkey , F%A_index%, onKeyPress, On
-		else
-			Hotkey , F%A_index%, onKeyPress, Off
+		if ((ControlVal <> "") and (is_Locked = true)){
+			Hotkey , F%A_index%, OnKeyPress, On
+		} else {
+			Hotkey , F%A_index%, OnKeyPress, Off
+		}
 	}
 
 	;Show tray notification according to the `is_locked` value
@@ -76,7 +77,7 @@ Apply:
 
 
 ; label for whenever a key is pressed
-onKeyPress:
+OnKeyPress:
 	str_press := SubStr(A_ThisHotkey, 2)
 	GuiControlGet, str_val, , A%str_press%
 
@@ -99,16 +100,18 @@ onKeyPress:
 OnExit:
 	ExitApp
 
+; Auto Start on Startup
 AutoStart:
 	Gui, submit, NoHide
-	if on_start
+	if on_start {
 		FileCreateShortcut, %A_ScriptFullPath%, %A_Startup%\%LINK_NAME%, %A_ScriptDir%
-	else
+	} else {
 		FileDelete, %A_Startup%\%LINK_NAME%
+	}
 	return
 
 
-onShow:
+OnShow:
 	Gui, Show, , FN Lock
 	return
 
@@ -123,8 +126,7 @@ GuiClose:
 	Gui, hide
 	return
 
-ChangeBrightness( ByRef brightness := 50, timeout = 1 )
-{
+ChangeBrightness( ByRef brightness := 50, timeout = 1 ){
 	if ( brightness >= 0 && brightness <= 100 ){
 		For property in ComObjGet( "winmgmts:\\.\root\WMI" ).ExecQuery( "SELECT * FROM WmiMonitorBrightnessMethods" )
 			property.WmiSetBrightness( timeout, brightness )
@@ -135,8 +137,7 @@ ChangeBrightness( ByRef brightness := 50, timeout = 1 )
 	}
 }
 
-GetCurrentBrightness()
-{
+GetCurrentBrightness(){
 	For property in ComObjGet( "winmgmts:\\.\root\WMI" ).ExecQuery( "SELECT * FROM WmiMonitorBrightness" )
 		currentBrightness := property.CurrentBrightness
 

@@ -15,12 +15,12 @@ if FileExist(A_Startup . LINK_NAME)
 
 Gui, Add, Text, x0 y10 w272 h20 +Center vStatus, (FN Keys Status: Unlocked)
 Gui, Add, Text, x32 yp+25 w100 hp , Toggle Lock
-Gui, Add, Edit, x100 yp w100 ReadOnly, Ctrl+Alt+L
+Gui, Add, Edit, x100 yp w100 ReadOnly, Ctrl+L
 
 loop, %F_KEYS%
 {
 	Gui, Add, Text, x32 yp+25 w50 hp , F%A_Index%
-	Gui, Add, ComboBox, x100 yp w150 vA%A_index%, Browser_Forward|Brightness_up|Brightness_down|Brightness_default|Browser_Back|Browser_Refresh|Browser_Stop|Browser_Search|Browser_Favorites|Browser_Home|Volume_Mute|Volume_Down|Volume_Up|Media_Next|Media_Prev|Media_Stop|Media_Play_Pause|Launch_Mail|Launch_Media|Launch_App1|Launch_App2|Help|Sleep|PrintScreen|CtrlBreak|Break|AppsKey|NumpadDot|NumpadDiv|NumpadMult|NumpadAdd|NumpadSub|NumpadEnter|Tab|Enter|Esc|BackSpace|Del|Insert|Home|End|PgUp|PgDn|Up|Down|Left|Right|ScrollLock|CapsLock|NumLock|Pause|sc145|sc146|sc046|sc123
+	Gui, Add, ComboBox, x100 yp w150 vA%A_index%, Browser_Forward|Brightness_up|Brightness_down|Brightness_default|Browser_Back|Browser_Refresh|Browser_Stop|Browser_Search|Browser_Favorites|Browser_Home|Volume_Mute|Volume_Down|Volume_Up|Media_Next|Media_Prev|Media_Stop|Media_Play_Pause|Launch_Mail|Launch_Media|Launch_Calculator|Launch_App1|Launch_App2|Help|Sleep|PrintScreen|CtrlBreak|Break|AppsKey|NumpadDot|NumpadDiv|NumpadMult|NumpadAdd|NumpadSub|NumpadEnter|Tab|Enter|Esc|BackSpace|Del|Insert|Home|End|PgUp|PgDn|Up|Down|Left|Right|ScrollLock|CapsLock|NumLock|Pause|sc145|sc146|sc046|sc123
 }
 
 Gui, Add, Button, x82 yp+35 w100 gApply, Apply
@@ -49,7 +49,7 @@ CurrentBrightness := GetCurrentBrightness()
 return
 
 ; Toggle Lock
-^!l::
+^l:: ; Ctrl + L (l)
 	is_locked := !is_locked
 
 Apply:
@@ -91,6 +91,9 @@ OnKeyPress:
 				return
 		case "Brightness_default":
 				ChangeBrightness( CurrentBrightness := 50 )
+				return
+		case "Launch_Calculator":
+				Run calc.exe
 				return
 		default:
 			send, {%str_val%}

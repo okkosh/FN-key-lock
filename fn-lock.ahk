@@ -5,7 +5,7 @@
 ; Total number of Fn Keys
 F_KEYS := 12
 ; Lock Status
-global is_Locked := false
+global is_Locked := true
 ; Startup link
 LINK_NAME := "\fnlock.lnk"
 
@@ -13,7 +13,7 @@ if FileExist(A_Startup . LINK_NAME)
 	is_auto_start:= "checked"
 
 
-Gui, Add, Text, x0 y10 w272 h20 +Center vStatus, (FN Keys Status: Unlocked)
+Gui, Add, Text, x0 y10 w272 h20 +Center vStatus, (FN Keys Status: Locked)
 Gui, Add, Text, x32 yp+25 w100 hp , Toggle Lock
 Gui, Add, Edit, x100 yp w100 ReadOnly, Ctrl+Alt+L
 

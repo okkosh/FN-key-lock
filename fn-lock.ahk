@@ -3,9 +3,9 @@
 #SingleInstance Force
 
 ; Total number of Fn Keys
-F_KEYS := 12
+global F_KEYS := 12
 ; Lock Status
-global is_Locked := true
+global is_locked := 1
 ; Startup link
 LINK_NAME := "\fnlock.lnk"
 
@@ -46,6 +46,9 @@ IfExist , %A_MyDocuments%\config.ini
 
 Increments := 5 ; < lower for a more granular change, higher for larger jump in brightness
 CurrentBrightness := GetCurrentBrightness()
+
+FLoopAndNotify()
+
 return
 
 ; Toggle Lock
@@ -54,27 +57,7 @@ return
 
 Apply:
 	Gui, submit, NoHide
-	; Loop through all the keys
-	loop, %F_KEYS%
-	{
-		GuiControlGet, ControlVal, , A%A_Index%
-		if ((ControlVal <> "") and (is_Locked = true)){
-			Hotkey , F%A_index%, OnKeyPress, On
-		} else {
-			Hotkey , F%A_index%, OnKeyPress, Off
-		}
-	}
-
-	;Show tray notification according to the `is_locked` value
-	if is_Locked {
-		TrayTip, FN Lock, FN Keys are Locked`nYou can now access the functions, 20, 17
-		GuiControl, , status, (FN Keys Status: Locked)
-	} else {
-		TrayTip, FN Lock, FN Keys are Unlocked`nWe've disabled the function keys, 20, 17
-		GuiControl, , status, (FN Keys Status: Unlocked)
-	}
-	return
-
+	FLoopAndNotify()
 
 ; label for whenever a key is pressed
 OnKeyPress:
@@ -100,7 +83,7 @@ OnKeyPress:
 OnExit:
 	ExitApp
 
-; Auto Start on Startup
+;Auto Start on Startup
 AutoStart:
 	Gui, submit, NoHide
 	if on_start {
@@ -143,3 +126,26 @@ GetCurrentBrightness(){
 
 	return currentBrightness
 }
+
+;looping trough F keys and notify
+
+FLoopAndNotify(){
+		loop, %F_KEYS%
+	{
+		GuiControlGet, ControlVal, , A%A_Index%
+		if ((ControlVal <> "") and (is_Locked = true)){
+			Hotkey , F%A_index%, OnKeyPress, On
+		} else {
+			Hotkey , F%A_index%, OnKeyPress, Off
+		}
+	}
+	if is_locked {
+		TrayTip, FN Lock, FN Keys are Locked`nYou can now access the functions, 20, 17
+		GuiControl, , status, (FN Keys Status: Locked)
+	} else {
+		TrayTip, FN Lock, FN Keys are Unlocked`nWe've disabled the function keys, 20, 17
+		GuiControl, , status, (FN Keys Status: Unlocked)
+	}
+	return
+}
+

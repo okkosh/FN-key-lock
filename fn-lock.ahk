@@ -27,6 +27,7 @@ loop, %F_KEYS%
 Gui, Add, Button, x82 yp+35 w100 gApply, Apply
 
 Gui, Add, CheckBox, x82 yp+35 w220 h20 von_start %is_auto_start% gAutoStart, Automatically run on startup
+Gui, Add, CheckBox, x82 yp+25 w220 h20 venabled_start gAutoEnable, Start in Enabled Mode
 
 Menu, Tray, NoStandard
 Menu, Tray, Add, Show, onShow
@@ -41,6 +42,11 @@ IfExist , %A_MyDocuments%\config.ini
 			IniRead, sett_Val, %A_MyDocuments%\config.ini, Keys, F%A_index%,
 			GuiControl, ChooseString, A%A_index%, %sett_val%
 		}
+
+	IniRead, enabled_mode, %A_MyDocuments%\config.ini, Preferences, AutoEnabled, 0
+	if (enabled_mode){
+		GuiControl, , enabled_start, 1
+	}
 } else {
 	Gui, Show, w260 h450, % GUI_NAME
 }
@@ -111,6 +117,11 @@ AutoStart:
 	}
 	return
 
+; Auto Enable on start
+AutoEnable:
+	Gui, submit, NoHide
+	IniWrite, %enabled_start%, %A_MyDocuments%\config.ini, Preferences, AutoEnabled
+	return
 
 OnShow:
 	Gui, Show, , % GUI_NAME

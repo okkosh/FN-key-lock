@@ -1,3 +1,5 @@
+;@Ahk2Exe-SetMainIcon icon.ico
+;@Ahk2Exe-ExeName fnlock
 #InstallKeybdHook
 #Persistent
 #SingleInstance Force

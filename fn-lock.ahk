@@ -22,9 +22,9 @@ Gui, Add, Button, x100 yp w100 gToggleLock hp, Ctrl+Alt+L
 loop, %F_KEYS%
 {
 	Gui, Add, Text, x32 yp+25 w50 hp , F%A_Index%
-	Gui, Add, ComboBox, x100 yp w150 vA%A_index%, Browser_Forward|Brightness_up|Brightness_down|Brightness_default|Browser_Back|Browser_Refresh|Browser_Stop|Browser_Search|Browser_Favorites|Browser_Home|Volume_Mute|Volume_Down|Volume_Up|Media_Next|Media_Prev|Media_Stop|Media_Play_Pause|Launch_Mail|Launch_Media|Launch_App1|Launch_App2|Help|Sleep|PrintScreen|CtrlBreak|Break|AppsKey|NumpadDot|NumpadDiv|NumpadMult|NumpadAdd|NumpadSub|NumpadEnter|Tab|Enter|Esc|BackSpace|Del|Insert|Home|End|PgUp|PgDn|Up|Down|Left|Right|ScrollLock|CapsLock|NumLock|Pause|sc145|sc146|sc046|sc123
+	Gui, Add, ComboBox, x100 yp w150 vA%A_index%, Browser_Forward|Brightness_up|Brightness_down|Brightness_default|Custom App|Browser_Back|Browser_Refresh|Browser_Stop|Browser_Search|Browser_Favorites|Browser_Home|Volume_Mute|Volume_Down|Volume_Up|Media_Next|Media_Prev|Media_Stop|Media_Play_Pause|Launch_Mail|Launch_Media|Help|Sleep|PrintScreen|CtrlBreak|Break|AppsKey|NumpadDot|NumpadDiv|NumpadMult|NumpadAdd|NumpadSub|NumpadEnter|Tab|Enter|Esc|BackSpace|Del|Insert|Home|End|PgUp|PgDn|Up|Down|Left|Right|ScrollLock|CapsLock|NumLock|Pause
+	Gui, Add, Button, xp+160 yp w20 vB%A_index% gAppSelectButton, % chr(128194)
 }
-
 Gui, Add, Button, x82 yp+35 w100 gApply, Apply
 
 Gui, Add, CheckBox, x82 yp+35 w220 h20 von_start %is_auto_start% gAutoStart, Automatically run on startup
@@ -105,6 +105,14 @@ OnKeyPress:
 
 	switch str_val
 	{
+		case "Custom App":
+				IniRead, App_path, % CONFIG_PATH, Custom_App, F%str_press%,
+				try {
+					RunWait, %App_path%
+				} catch {
+					TrayTip,% GUI_NAME ,Error launching your specified app, 5, 3
+				}
+				return
 		case "Brightness_up":
 				ChangeBrightness( CurrentBrightness += Increments )
 				return
@@ -136,6 +144,18 @@ AutoStart:
 AutoEnable:
 	Gui, submit, NoHide
 	IniWrite, %enabled_start%, % CONFIG_PATH, Preferences, AutoEnabled
+	return
+
+; Select an app to launch on the corresponding FN key press
+AppSelectButton:
+	FileSelectFile, App_to_launch, , , Select an application or EXE to launch with this key, *.exe
+	if App_to_launch =
+		return
+	; Retrieve the corresponding F key by replacing the B
+	StringReplace, Key_, A_GuiControl, B
+	GuiControl, ChooseString, A%Key_%, % "Custom App"
+	; Write ini file with app path as value and "F key" as Key
+	IniWrite, %App_to_launch%, % CONFIG_PATH, Custom_App, F%Key_%
 	return
 
 OnShow:

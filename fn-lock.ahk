@@ -8,6 +8,7 @@ F_KEYS := 12
 global is_Locked := false
 ; Startup link
 LINK_NAME := "\fnlock.lnk"
+GUI_NAME := "FN Lock"
 
 if FileExist(A_Startup . LINK_NAME)
 	is_auto_start:= "checked"
@@ -30,7 +31,7 @@ Gui, Add, CheckBox, x82 yp+35 w220 h20 von_start %is_auto_start% gAutoStart, Aut
 Menu, Tray, NoStandard
 Menu, Tray, Add, Show, onShow
 Menu, Tray, Add, Exit, OnExit
-Menu, Tray, Tip, FN Lock
+Menu, Tray, Tip, % GUI_NAME
 
 ; Shows GUI iff not configured (For the first time)
 IfExist , %A_MyDocuments%\config.ini
@@ -40,8 +41,8 @@ IfExist , %A_MyDocuments%\config.ini
 			IniRead, sett_Val, %A_MyDocuments%\config.ini, Keys, F%A_index%,
 			GuiControl, ChooseString, A%A_index%, %sett_val%
 		}
-}else{
-	Gui, Show, w260 h400, FN Lock
+} else {
+	Gui, Show, w260 h450, % GUI_NAME
 }
 
 Increments := 5 ; < lower for a more granular change, higher for larger jump in brightness
@@ -67,10 +68,10 @@ Apply:
 
 	;Show tray notification according to the `is_locked` value
 	if is_Locked {
-		TrayTip, FN Lock, FN Keys are Locked`nYou can now access the functions, 20, 17
+		TrayTip, % GUI_NAME, FN Keys are Locked`nYou can now access the functions, 20, 17
 		GuiControl, , status, (FN Keys Status: Locked)
 	} else {
-		TrayTip, FN Lock, FN Keys are Unlocked`nWe've disabled the function keys, 20, 17
+		TrayTip,% GUI_NAME , FN Keys are Unlocked`nWe've disabled the function keys, 20, 17
 		GuiControl, , status, (FN Keys Status: Unlocked)
 	}
 	return
@@ -112,7 +113,7 @@ AutoStart:
 
 
 OnShow:
-	Gui, Show, , FN Lock
+	Gui, Show, , % GUI_NAME
 	return
 
 ;Save all the settings when the gui is closed

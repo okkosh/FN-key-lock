@@ -80,13 +80,19 @@ Apply:
 			Hotkey , F%A_index%, OnKeyPress, Off
 		}
 	}
-
+	; Change lock messages based on action type
+	message_lock := A_GuiControl ==  "Apply"
+					? "Settings Applied!"
+					: "FN Keys are locked`nYou have enabled the function keys"
+	message_unlock := A_GuiControl ==  "Apply"
+					? "Settings Saved!"
+					: "FN Keys are unlocked`nYou have disabled the function keys"
 	;Show tray notification according to the `is_locked` value
 	if is_Locked {
-		TrayTip, % GUI_NAME, FN Keys are Locked`nYou can now access the functions, 20, 17
+		TrayTip, % GUI_NAME, % message_lock , 20, 17
 		GuiControl, , status, (FN Keys Status: Locked)
 	} else {
-		TrayTip,% GUI_NAME , FN Keys are Unlocked`nWe've disabled the function keys, 20, 17
+		TrayTip,% GUI_NAME , % message_unlock, 20, 17
 		GuiControl, , status, (FN Keys Status: Unlocked)
 	}
 	return

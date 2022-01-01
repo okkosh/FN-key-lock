@@ -9,6 +9,7 @@ global is_Locked := false
 ; Startup link
 LINK_NAME := "\fnlock.lnk"
 GUI_NAME := "FN Lock"
+CONFIG_PATH :=  % A_MyDocuments . "\config.ini"
 
 if FileExist(A_Startup . LINK_NAME)
 	is_auto_start:= "checked"
@@ -35,15 +36,15 @@ Menu, Tray, Add, Exit, OnExit
 Menu, Tray, Tip, % GUI_NAME
 
 ; Shows GUI iff not configured (For the first time)
-IfExist , %A_MyDocuments%\config.ini
+IfExist , % CONFIG_PATH
 {
 	loop, %F_KEYS%
 		{
-			IniRead, sett_Val, %A_MyDocuments%\config.ini, Keys, F%A_index%,
+			IniRead, sett_Val, % CONFIG_PATH, Keys, F%A_index%,
 			GuiControl, ChooseString, A%A_index%, %sett_val%
 		}
 
-	IniRead, enabled_mode, %A_MyDocuments%\config.ini, Preferences, AutoEnabled, 0
+	IniRead, enabled_mode, % CONFIG_PATH, Preferences, AutoEnabled, 0
 	if (enabled_mode){
 		GuiControl, , enabled_start, 1
 	}
@@ -127,7 +128,7 @@ AutoStart:
 ; Auto Enable on start
 AutoEnable:
 	Gui, submit, NoHide
-	IniWrite, %enabled_start%, %A_MyDocuments%\config.ini, Preferences, AutoEnabled
+	IniWrite, %enabled_start%, % CONFIG_PATH, Preferences, AutoEnabled
 	return
 
 OnShow:
@@ -140,7 +141,7 @@ GuiClose:
 		loop, %F_KEYS%
 		{
 			GuiControlGet, str_val, , A%A_Index%
-			IniWrite, %str_val%, %A_MyDocuments%\config.ini, Keys, F%A_index%
+			IniWrite, %str_val%, % CONFIG_PATH, Keys, F%A_index%
 		}
 	Gui, hide
 	return

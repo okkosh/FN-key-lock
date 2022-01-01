@@ -17,7 +17,7 @@ if FileExist(A_Startup . LINK_NAME)
 
 Gui, Add, Text, x0 y10 w272 h20 +Center vStatus, (FN Keys Status: Unlocked)
 Gui, Add, Text, x32 yp+25 w100 hp , Toggle Lock
-Gui, Add, Edit, x100 yp w100 ReadOnly, Ctrl+Alt+L
+Gui, Add, Button, x100 yp w100 gToggleLock hp, Ctrl+Alt+L
 
 loop, %F_KEYS%
 {
@@ -65,6 +65,7 @@ return
 
 ; Toggle Lock
 ^!l::
+ToggleLock:
 	is_locked := !is_locked
 
 Apply:

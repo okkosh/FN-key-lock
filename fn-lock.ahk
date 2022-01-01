@@ -53,6 +53,13 @@ IfExist , %A_MyDocuments%\config.ini
 
 Increments := 5 ; < lower for a more granular change, higher for larger jump in brightness
 CurrentBrightness := GetCurrentBrightness()
+; Handles Tray clicks
+OnMessage(0x404, "AHK_NOTIFYICON")
+
+if (enabled_mode){
+	is_locked := true
+	goto, Apply
+}
 return
 
 ; Toggle Lock
@@ -137,6 +144,14 @@ GuiClose:
 		}
 	Gui, hide
 	return
+
+;Clicking the icon will lead to Main window
+AHK_NOTIFYICON(wParam, lParam, uMsg, hWnd)
+{
+	global gui_name
+	if (lParam = 0x0201)
+		Gui, Show, , % GUI_NAME
+}
 
 ChangeBrightness( ByRef brightness := 50, timeout = 1 ){
 	if ( brightness >= 0 && brightness <= 100 ){

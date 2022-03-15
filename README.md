@@ -1,7 +1,12 @@
 # FN Key Lock
 A Script to simulate custom hardware (F1-F12) FN key lock on windows
 
-![Screenshot](https://i.imgur.com/54YAxSS.png)
+![Screenshot](https://i.imgur.com/rE8klvT.jpg)
+
+**Features**
+- Simple and Quick
+- Launch custom hotkeys or any apps with FN
+- Auto-enable or Auto-start on boot
 
 ## Installation:
 Press  `Ctrl`+`Alt`+`L` to toggle Lock.
@@ -18,18 +23,23 @@ Press  `Ctrl`+`Alt`+`L` to toggle Lock.
 
 **Starting Automatically with Windows**
 1. Open the UI via tray->FN Lock->Right-Click->Show
-2. Enable the `Autoatically run on startup` option
-3. That's it!
+2. Enable the `Automatically run on startup` option
+3. Voila!
 
 **Notes**
 - The GUI shows up only for the first time. For the subsequent runs -- it will start in the tray mode.
-- You can always access the GUI using `tray->right-click->Show`
+- You can always access the GUI using `tray->right-click->Show` or by clicking the tray icon
 
 ## Building
 - Clone the Repo
 - Download Autohotkey (AHK) from https://www.autohotkey.com
 - Use `ahk2exe` tool and add `fn-lock` script into it
 - Compile
+
+## Contribute
+- Clone this project (Note: Follow the Commit guidelines from https://cbea.ms/git-commit/)
+- Make changes and create a PR
+- Yup! That's it!
 
 ## Credits:
 Icon by - [Papirus Development Team](https://github.com/PapirusDevelopmentTeam/)
